@@ -3,8 +3,13 @@ import { Note } from "./models/note"
 import noteController from "./controllers/noteController"
 
 const express = require('express')
+const cors = require("cors")
 const app: Application = express()
 const api: Router = express.Router()
+
+app.use(cors())
+app.use(express.json());
+app.use("/api", api)
 
 api.get("/notes", (req: Request, res: Response) => {
     res.send(noteController.getNotes())
@@ -21,8 +26,5 @@ api.patch("/notes/:id", (req: Request, res: Response) => {
 api.delete("/notes/:id", (req: Request, res: Response) => {
     res.send(noteController.deleteNote(req.params.id))
 })
-
-app.use(express.json());
-app.use("/api", api)
 
 export default app
