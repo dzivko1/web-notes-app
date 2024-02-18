@@ -1,0 +1,16 @@
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.note-title {
+  background-color: light-dark(#bbb, #444);
+  padding: 8px 10px;
+  font-weight: bold;
+}
+
+.note-content {
+  border: 1px solid light-dark(#bbb, #444);
+  padding: 10px;
+}

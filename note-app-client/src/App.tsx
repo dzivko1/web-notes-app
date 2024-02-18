@@ -1,19 +1,25 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { Note } from './models/note'
+import { Note } from './models/Note'
+import NoteInput from './components/noteInput/NoteInput'
+import NotesList from "./components/notesList/NotesList"
 
 function App() {
   const [notes, setNotes] = useState<Note[]>([])
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/notes")
+    fetch("/api/notes")
       .then((res: Response) => res.json())
       .then((notes: Note[]) => setNotes(notes))
   }, [])
 
   return (
     <>
-      <div>Test {notes.length > 0 && notes[0].title || "nope"}</div>
+      <header>Note Taker App</header>
+      <main>
+        <NoteInput onNewNote={(note) => setNotes(notes.concat(note))} />
+        <NotesList notes={notes} />
+      </main>
     </>
   )
 }

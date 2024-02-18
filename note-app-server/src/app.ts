@@ -1,13 +1,9 @@
-import { Application, Request, Response, Router } from "express"
-import { Note } from "./models/note"
+import express, { Application, Request, Response, Router } from "express"
 import noteController from "./controllers/noteController"
 
-const express = require('express')
-const cors = require("cors")
 const app: Application = express()
 const api: Router = express.Router()
 
-app.use(cors())
 app.use(express.json());
 app.use("/api", api)
 
