@@ -1,6 +1,7 @@
 :root {
   font-family: Arial, sans-serif;
   color-scheme: light dark;
+  scrollbar-gutter: stable;
 }
 
 body {

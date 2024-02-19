@@ -28,7 +28,9 @@ function NoteView({ title, content }: NoteViewProps) {
 	return (
 		<div className="note">
 			<div className="note-title" onClick={() => setExpanded(!expanded)}>{title}</div>
-			{expanded && <div className="note-content">{content}</div>}
+			<div className={"note-content " + (expanded ? "" : "note-content-hidden")}>
+				<div>{content}</div>
+			</div>
 		</div>
 	)
 }

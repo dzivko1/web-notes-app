@@ -11,6 +11,23 @@
 }
 
 .note-content {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows 400ms,
+    padding 400ms;
+    
   border: 1px solid light-dark(#bbb, #444);
   padding: 10px;
+
+  div {
+    overflow: hidden;
+  }
+}
+
+
+.note-content-hidden {
+  grid-template-rows: 0fr;
+  padding-top: 0;
+  padding-bottom: 0;
 }
