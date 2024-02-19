@@ -2,14 +2,15 @@ import { useState } from "react"
 import { Note } from "../../models/Note"
 import "./NotesList.css"
 
-export default function NotesList({ notes }: { notes: Note[] }) {
+export default function NotesList({ notes, onDeleteClick }: { notes: Note[], onDeleteClick: (id: string) => void }) {
 	return (
 		<div className="notes-list">
 			{
 				notes.map((note) =>
 					<NoteView
-						title={note.title}
-						content={note.content}
+						key={note.id}
+						note={note}
+						onDeleteClick={() => onDeleteClick(note.id)}
 					/>
 				)
 			}
@@ -17,19 +18,22 @@ export default function NotesList({ notes }: { notes: Note[] }) {
 	)
 }
 
-interface NoteViewProps {
-	title: string
-	content: string
-}
-
-function NoteView({ title, content }: NoteViewProps) {
+function NoteView({ note, onDeleteClick }: { note: Note, onDeleteClick: () => void }) {
 	const [expanded, setExpanded] = useState(false)
 
 	return (
 		<div className="note">
-			<div className="note-title" onClick={() => setExpanded(!expanded)}>{title}</div>
+			<div className="note-handle" onClick={() => setExpanded(!expanded)}>
+				<div className="title">{note.title}</div>
+				<button
+					className="delete"
+					onClickCapture={(e) => {
+						e.stopPropagation()
+						onDeleteClick()
+					}}>x</button>
+			</div>
 			<div className={"note-content " + (expanded ? "" : "note-content-hidden")}>
-				<div>{content}</div>
+				<div>{note.content}</div>
 			</div>
 		</div>
 	)

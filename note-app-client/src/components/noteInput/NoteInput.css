@@ -5,7 +5,7 @@
   gap: 16px;
 }
 
-.note-input > button {
+.note-input>button {
   align-self: flex-start;
   padding: 8px 40px;
 }
@@ -16,9 +16,10 @@
   gap: 8px;
 }
 
-.text-input > textarea,
-.text-input > input {
-  max-width: 100%;
+.text-input>textarea,
+.text-input>input {
   min-width: 100%;
+  max-width: 100%;
   padding: 8px;
+  box-sizing: border-box;
 }

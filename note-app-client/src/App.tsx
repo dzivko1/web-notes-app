@@ -13,12 +13,20 @@ function App() {
       .then((notes: Note[]) => setNotes(notes))
   }, [])
 
+  async function deleteNote(id: string) {
+    const res = await fetch("/api/notes/" + id, { method: "DELETE" })
+    if (res.ok) setNotes(notes.filter((note) => note.id !== id))
+  }
+
   return (
     <>
       <header>Note Taker App</header>
       <main>
         <NoteInput onNewNote={(note) => setNotes(notes.concat(note))} />
-        <NotesList notes={notes} />
+        <NotesList
+          notes={notes}
+          onDeleteClick={(id) => deleteNote(id)}
+        />
       </main>
     </>
   )
