@@ -1,6 +1,6 @@
-import { useState } from "react"
 import { Note } from "../../models/Note"
 import "./NotesList.css"
+import NoteView from "../noteView/NoteView"
 
 export default function NotesList({ notes, onDeleteClick }: { notes: Note[], onDeleteClick: (id: string) => void }) {
 	return (
@@ -9,32 +9,14 @@ export default function NotesList({ notes, onDeleteClick }: { notes: Note[], onD
 				notes.map((note) =>
 					<NoteView
 						key={note.id}
-						note={note}
+						title={note.title}
+						onTitleChange={() => {}}
+						content={note.content}
+						onContentChange={() => {}}
 						onDeleteClick={() => onDeleteClick(note.id)}
 					/>
 				)
 			}
-		</div>
-	)
-}
-
-function NoteView({ note, onDeleteClick }: { note: Note, onDeleteClick: () => void }) {
-	const [expanded, setExpanded] = useState(false)
-
-	return (
-		<div className="note">
-			<div className="note-handle" onClick={() => setExpanded(!expanded)}>
-				<div className="title">{note.title}</div>
-				<button
-					className="delete"
-					onClickCapture={(e) => {
-						e.stopPropagation()
-						onDeleteClick()
-					}}>x</button>
-			</div>
-			<div className={"note-content " + (expanded ? "" : "note-content-hidden")}>
-				<div>{note.content}</div>
-			</div>
 		</div>
 	)
 }

@@ -1,0 +1,73 @@
+.note {
+  display: flex;
+  flex-direction: column;
+  color: black;
+  min-width: 12em;
+  max-height: 12em;
+  aspect-ratio: 1;
+
+  input,
+  textarea {
+    color: black;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    resize: none;
+    overflow: auto;
+    margin: 0;
+    font-size: 2cqw;
+  }
+
+  .note-handle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e6c220;
+    padding: 12px 4px 12px 12px;
+    flex-shrink: 0;
+    height: 10%;
+
+    .title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: bold;
+    }
+
+    .delete {
+      background-color: transparent;
+      color: black;
+      border: none;
+      border-radius: 50%;
+      min-width: 24px;
+      height: 24px;
+      padding-bottom: 2px;
+    }
+
+    .delete:hover {
+      background-color: #b8a11f;
+    }
+
+    .delete:active {
+      background-color: #97841a;
+    }
+  }
+
+  .note-block {
+    background: #fde682;
+    flex-grow: 1;
+    display: flex;
+  }
+
+  .note-content {
+    background-color: #e6cb31;
+    padding: 12px;
+    flex-grow: 1;
+    word-break: break-word;
+    overflow-y: auto;
+    scrollbar-color: #b8a11f #e6cb31;
+    scrollbar-width: thin;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 80% 100%, 0% 100%);
+  }
+}

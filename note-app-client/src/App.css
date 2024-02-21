@@ -1,15 +1,16 @@
 header {
   position: sticky;
   top: 0;
-  background-color: green;
+  background-color: rgb(234, 199, 45);
   font-size: 2.5em;
   font-weight: bold;
   padding: 10px 30px;
+  z-index: 999;
 }
 
 main {
-  margin: 5vh 20vw;
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  gap: 3vw;
 }
