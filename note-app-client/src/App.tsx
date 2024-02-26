@@ -4,7 +4,6 @@ import { Note } from "./models/Note";
 import NoteInput from "./components/noteInput/NoteInput";
 import NotesList from "./components/notesList/NotesList";
 import NoteView from "./components/noteView/NoteView";
-import "./utils/stringUtils";
 
 function App() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -58,7 +57,7 @@ function App() {
           />
           <button
             className="save"
-            disabled={title.isBlank() || content.isBlank()}
+            disabled={!title.trim() || !content.trim()}
             onClick={saveNote}
           >
             Save
