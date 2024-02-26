@@ -1,12 +1,12 @@
-import "./NoteView.css"
+import "./NoteView.css";
 
 interface NoteViewProps {
-  isEditable?: boolean
-  title: string
-  onTitleChange: (title: string) => void
-  content: string
-  onContentChange: (content: string) => void
-  onDeleteClick: () => void
+  isEditable?: boolean;
+  title: string;
+  onTitleChange: (title: string) => void;
+  content: string;
+  onContentChange: (content: string) => void;
+  onDeleteClick: () => void;
 }
 
 export default function NoteView({
@@ -15,25 +15,27 @@ export default function NoteView({
   onTitleChange,
   content,
   onContentChange,
-  onDeleteClick
+  onDeleteClick,
 }: NoteViewProps) {
   return (
     <div className="note">
       <div className="note-handle">
-        {isEditable ?
+        {isEditable ? (
           <input
             className="title"
             value={title}
             onChange={(e) => onTitleChange(e.target.value)}
           />
-          :
+        ) : (
           <div className="title">{title}</div>
-        }
+        )}
 
-        <button className="delete" onClick={onDeleteClick}>x</button>
+        <button className="delete" onClick={onDeleteClick}>
+          x
+        </button>
       </div>
 
-      {isEditable ?
+      {isEditable ? (
         <div className="note-block">
           <textarea
             className="note-content"
@@ -41,9 +43,9 @@ export default function NoteView({
             onChange={(e) => onContentChange(e.target.value)}
           />
         </div>
-        :
+      ) : (
         <div className="note-content">{content}</div>
-      }
+      )}
     </div>
-  )
+  );
 }

@@ -4,7 +4,7 @@
   border-right: 4px solid gray;
   overflow: hidden;
 
-  >div {
+  > div {
     display: flex;
     flex-direction: column;
     place-items: center;
