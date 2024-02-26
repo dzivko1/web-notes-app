@@ -1,6 +1,5 @@
 import { useId, useState } from "react";
 import { Note } from "../../models/Note";
-import "../../utils/stringUtils";
 import "./NoteInput.css";
 import { timestampSeconds } from "../../utils/dateUtils";
 
@@ -39,21 +38,20 @@ export default function NoteInput({
   return (
     <div className="note-input">
       <TextInput
+        id={useId()}
         label="Title"
         input={title}
         onInputChange={setTitle}
         multiline={false}
       />
       <TextInput
+        id={useId()}
         label="Content"
         input={content}
         onInputChange={setContent}
         multiline={true}
       />
-      <button
-        onClick={saveNote}
-        disabled={title.isBlank() || content.isBlank()}
-      >
+      <button onClick={saveNote} disabled={!title.trim() || !content.trim()}>
         Save
       </button>
     </div>
@@ -61,7 +59,7 @@ export default function NoteInput({
 }
 
 interface TextInputProps {
-  id?: string;
+  id: string;
   label: string;
   input: string;
   onInputChange: (input: string) => void;
@@ -69,7 +67,7 @@ interface TextInputProps {
 }
 
 function TextInput({
-  id = useId(),
+  id,
   label,
   input,
   onInputChange,
