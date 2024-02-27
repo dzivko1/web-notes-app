@@ -1,11 +1,14 @@
 import express, { Application, Request, Response, Router } from "express";
 import noteController from "./controllers/noteController";
+import requireAuth from "./middleware/authMiddleware";
 
 const app: Application = express();
 const api: Router = express.Router();
 
 app.use(express.json());
 app.use("/api", api);
+
+api.use(requireAuth);
 
 api.get("/notes", (req: Request, res: Response) => {
   res.send(noteController.getNotes());
