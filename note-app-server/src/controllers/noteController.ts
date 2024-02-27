@@ -1,44 +1,24 @@
-import { Note } from "../models/note";
-import { timestampSeconds } from "../utils/dateUtils";
+import { Request, Response } from "express";
+import noteRepository from "../repositories/noteRepository";
 
 class NoteController {
-  private notes: Note[] = [];
-
-  getNotes(): Note[] {
-    return this.notes;
+  getNotes(req: Request, res: Response) {
+    res.send(noteRepository.getNotes());
   }
 
-  createNote(title: string, content: string): Note {
-    const newNote: Note = {
-      id: crypto.randomUUID(),
-      title: title,
-      content: content,
-      createdAt: timestampSeconds(),
-      updatedAt: null,
-    };
-    this.notes.push(newNote);
-    return newNote;
+  createNote(req: Request, res: Response) {
+    const { title, content } = req.body;
+    res.send(noteRepository.createNote(title, content));
   }
 
-  updateNote(id: string, newNote: Partial<Note>): Note {
-    const existingNote = this.notes.find((note) => note.id === id);
-    if (!existingNote) throw new Error("Note not found");
-
-    const updatedNote = {
-      ...existingNote,
-      ...newNote,
-      updatedAt: timestampSeconds(),
-    };
-
-    this.notes = this.notes.map((note) =>
-      updatedNote.id === id ? updatedNote : note,
-    );
-
-    return updatedNote;
+  updateNote(req: Request, res: Response) {
+    const { id } = req.params;
+    res.send(noteRepository.updateNote(id, req.body));
   }
 
-  deleteNote(id: string) {
-    this.notes = this.notes.filter((note) => note.id !== id);
+  deleteNote(req: Request, res: Response) {
+    const { id } = req.params;
+    res.send(noteRepository.deleteNote(id));
   }
 }
 
