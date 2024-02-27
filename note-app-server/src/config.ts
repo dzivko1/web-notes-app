@@ -4,6 +4,6 @@ function getEnv(key: string): string {
   return envVar;
 }
 
-export const config = {
+export const Config = {
   JWT_PRIVATE_KEY: getEnv("JWT_PRIVATE_KEY"),
 };
