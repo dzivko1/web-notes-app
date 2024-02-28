@@ -4,13 +4,14 @@ import { timestampSeconds } from "../utils/dateUtils";
 class NoteRepository {
   private notes: Note[] = [];
 
-  getNotes(): Note[] {
-    return this.notes;
+  getNotesForUser(userId: string): Note[] {
+    return this.notes.filter((note) => note.userId === userId);
   }
 
-  createNote(title: string, content: string): Note {
+  createNote(userId: string, title: string, content: string): Note {
     const newNote: Note = {
       id: crypto.randomUUID(),
+      userId: userId,
       title: title,
       content: content,
       createdAt: timestampSeconds(),

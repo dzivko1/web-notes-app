@@ -1,4 +1,4 @@
-import express, { Application, Request, Response, Router } from "express";
+import express, { Application, Router } from "express";
 import authController from "./controllers/authController";
 import noteController from "./controllers/noteController";
 import requireAuth from "./middleware/authMiddleware";

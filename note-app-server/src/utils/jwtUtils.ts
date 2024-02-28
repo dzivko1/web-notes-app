@@ -3,6 +3,6 @@ import { Config } from "../config";
 
 export type Token = string;
 
-export function generateUserToken(username: string): string {
-  return jwt.sign({ username: username }, Config.JWT_PRIVATE_KEY);
+export function generateUserToken(id: string): string {
+  return jwt.sign({ id: id }, Config.JWT_PRIVATE_KEY);
 }

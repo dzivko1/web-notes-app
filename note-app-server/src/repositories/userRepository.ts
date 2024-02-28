@@ -4,16 +4,12 @@ import { generateUserToken, Token } from "../utils/jwtUtils";
 class UserRepository {
   private users: User[] = [];
 
-  getUser(username: string): User | undefined {
-    return this.users.find((user) => user.username === username);
+  getUser(id: string): User | undefined {
+    return this.users.find((user) => user.id === id);
   }
 
-  getUserToken(username: string): Token | undefined {
-    if (this.getUser(username)) {
-      return generateUserToken(username);
-    } else {
-      return undefined;
-    }
+  getUserByUsername(username: string): User | undefined {
+    return this.users.find((user) => user.username === username);
   }
 
   registerUser(
@@ -25,19 +21,22 @@ class UserRepository {
     if (this.users.some((user) => user.username === username))
       throw new Error("Username already exists");
 
+    const userId: string = crypto.randomUUID();
+
     this.users.push({
+      id: userId,
       username: username,
       password: password,
       firstName: firstName,
       lastName: lastName,
     });
-    return generateUserToken(username);
+    return generateUserToken(userId);
   }
 
   authUser(username: string, password: string): Token | undefined {
     const user = this.users.find((user) => user.username === username);
     if (user && user.password === password) {
-      return generateUserToken(username);
+      return generateUserToken(user.id);
     } else {
       return undefined;
     }

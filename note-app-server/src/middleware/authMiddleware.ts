@@ -2,9 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { Config } from "../config";
 import userRepository from "../repositories/userRepository";
+import { UserRequest } from "../types";
 
 export default function requireAuth(
-  req: Request,
+  req: UserRequest,
   res: Response,
   next: NextFunction,
 ) {
@@ -17,7 +18,9 @@ export default function requireAuth(
     if (error) {
       res.sendStatus(401);
     } else {
-      if (userRepository.getUser(data.username)) {
+      const user = userRepository.getUser(data.id);
+      if (user) {
+        req.user = user;
         next();
       } else {
         res.sendStatus(401);

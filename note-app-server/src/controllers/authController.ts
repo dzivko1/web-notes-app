@@ -8,10 +8,10 @@ class AuthController {
       return res.status(400).send("Invalid input data");
     }
 
-    let token = userRepository.getUserToken(username);
-    if (token) return res.send({ token: token });
+    const user = userRepository.getUserByUsername(username);
+    if (user) return res.status(409).send("Username already registered");
 
-    token = userRepository.registerUser(
+    const token = userRepository.registerUser(
       username,
       password,
       firstName,
