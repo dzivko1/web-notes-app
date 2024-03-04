@@ -17,28 +17,29 @@ class UserRepository {
     password: string,
     firstName: string,
     lastName: string,
-  ): Token {
+  ): [User, Token] {
     if (this.users.some((user) => user.username === username))
       throw new Error("Username already exists");
 
     const userId: string = crypto.randomUUID();
-
-    this.users.push({
+    const user: User = {
       id: userId,
       username: username,
       password: password,
       firstName: firstName,
       lastName: lastName,
-    });
-    return generateUserToken(userId);
+    };
+
+    this.users.push(user);
+    return [user, generateUserToken(userId)];
   }
 
-  authUser(username: string, password: string): Token | undefined {
+  authUser(username: string, password: string): [User?, Token?] {
     const user = this.users.find((user) => user.username === username);
     if (user && user.password === password) {
-      return generateUserToken(user.id);
+      return [user, generateUserToken(user.id)];
     } else {
-      return undefined;
+      return [];
     }
   }
 }

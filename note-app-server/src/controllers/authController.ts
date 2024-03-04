@@ -1,33 +1,49 @@
 import { Request, Response } from "express";
 import userRepository from "../repositories/userRepository";
+import { UserRequest } from "../types";
+import { User } from "../models/user";
 
 class AuthController {
+  getUser(req: UserRequest, res: Response) {
+    res.send(req.user);
+  }
+
   registerUser(req: Request, res: Response) {
     const { username, password, firstName, lastName } = req.body;
     if (!username || !password || !firstName || !lastName) {
       return res.status(400).send("Invalid input data");
     }
 
-    const user = userRepository.getUserByUsername(username);
-    if (user) return res.status(409).send("Username already registered");
+    const existingUser = userRepository.getUserByUsername(username);
+    if (existingUser)
+      return res.status(409).send("Username already registered");
 
-    const token = userRepository.registerUser(
+    const [user, token] = userRepository.registerUser(
       username,
       password,
       firstName,
       lastName,
     );
-    res.send({ token: token });
+
+    res
+      .cookie("authToken", token, { httpOnly: true, sameSite: "strict" })
+      .send(user);
   }
 
   authUser(req: Request, res: Response) {
     const { username, password } = req.body;
-    const token = userRepository.authUser(username, password);
-    if (token) {
-      res.send({ token: token });
+    const [user, token] = userRepository.authUser(username, password);
+    if (user && token) {
+      res
+        .cookie("authToken", token, { httpOnly: true, sameSite: "strict" })
+        .send(user);
     } else {
       res.status(400).send("Invalid account details");
     }
+  }
+
+  logoutUser(req: Request, res: Response) {
+    res.clearCookie("authToken").sendStatus(200);
   }
 }
 
