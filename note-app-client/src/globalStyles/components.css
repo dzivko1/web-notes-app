@@ -1,0 +1,43 @@
+.center-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background-color: var(--color-surface);
+  padding: 40px;
+  border-radius: 16px;
+  width: 30vw;
+  min-width: 300px;
+
+  label {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    span {
+      margin-left: 10px;
+    }
+
+    input {
+      padding: 8px;
+    }
+  }
+
+  strong {
+    color: #ff3333;
+  }
+
+  button {
+    margin-top: 20px;
+  }
+}

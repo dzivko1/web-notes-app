@@ -17,6 +17,7 @@
     overflow: auto;
     margin: 0;
     font-size: 2cqw;
+    width: 100%;
   }
 
   .note-handle {
@@ -42,7 +43,7 @@
       border-radius: 50%;
       min-width: 24px;
       height: 24px;
-      padding-bottom: 2px;
+      padding: 0 0 2px;
     }
 
     .delete:hover {

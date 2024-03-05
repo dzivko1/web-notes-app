@@ -1,0 +1,6 @@
+.container {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  gap: 3vw;
+}

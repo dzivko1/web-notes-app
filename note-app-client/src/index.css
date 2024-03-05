@@ -1,13 +1,23 @@
 :root {
+  --color-background: #e6e6e6;
+  --color-surface: #c8c8c8;
+
   font-family: Arial, sans-serif;
   color-scheme: light dark;
-  color: black;
   scrollbar-gutter: stable;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #2f2f2f;
+    --color-surface: #545454;
+  }
 }
 
 body {
   margin: 0;
   height: 100vh;
+  background-color: var(--color-background);
 }
 
 #root {
