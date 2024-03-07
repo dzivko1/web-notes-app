@@ -37,6 +37,7 @@ export default function LoginPage() {
           <input
             type="text"
             name="username"
+            required
           />
         </label>
         <label>
@@ -44,6 +45,7 @@ export default function LoginPage() {
           <input
             type="text"
             name="password"
+            required
           />
         </label>
         <button type="submit">Submit</button>

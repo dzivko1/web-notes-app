@@ -30,6 +30,10 @@
 
     input {
       padding: 8px;
+
+      &:invalid {
+        border: 2px solid #aa2200;
+      }
     }
   }
 
