@@ -6,37 +6,78 @@ import {
   useActionData,
 } from "react-router-dom";
 import authService from "../../services/authService.ts";
+import FormInput from "../../components/formInput/FormInput.tsx";
+
+interface RegistrationFormErrors {
+  username: string;
+  password: string;
+  repeatPassword: string;
+  firstName: string;
+  lastName: string;
+  other: string;
+}
+
+function validateForm(formData: FormData): RegistrationFormErrors {
+  const username = formData.get("username") as string;
+  const password = formData.get("password") as string;
+  const repeatPassword = formData.get("repeatPassword") as string;
+  const firstName = formData.get("firstName") as string;
+  const lastName = formData.get("lastName") as string;
+  const errors: RegistrationFormErrors = {
+    username: "",
+    password: "",
+    repeatPassword: "",
+    firstName: "",
+    lastName: "",
+    other: "",
+  };
+
+  if (username.length < 3) {
+    errors.username = "Username must have at least 3 characters";
+  }
+
+  if (password.length < 6) {
+    errors.password = "Password must have at least 6 characters";
+  }
+
+  if (repeatPassword !== password) {
+    errors.repeatPassword = "Password fields must match";
+  }
+
+  if (firstName.length === 0) {
+    errors.firstName = "A first name is required";
+  }
+
+  if (lastName.length === 0) {
+    errors.lastName = "A last name is required";
+  }
+
+  return errors;
+}
 
 async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
+  const errors = validateForm(formData);
+  if (Object.values(errors).some((value) => value.length > 0)) {
+    return errors;
+  }
+
   formData.delete("repeatPassword");
+
   const result = await authService.registerUser(formData);
   switch (result.type) {
     case "success":
       return redirect("/");
     case "conflict":
-      return "Username is already taken.";
+      errors.other = "Username is already taken.";
+      return errors;
   }
 }
 
 RegistrationPage.action = action;
 
 export default function RegistrationPage() {
-  const message = useActionData() as string | undefined;
-
-  function validatePassword() {
-    const passwordInput = document.getElementsByName(
-      "password",
-    )[0] as HTMLInputElement;
-    const repeatPasswordInput = document.getElementsByName(
-      "repeatPassword",
-    )[0] as HTMLInputElement;
-    if (passwordInput.value !== repeatPasswordInput.value) {
-      repeatPasswordInput.setCustomValidity("Password fields must match.");
-    } else {
-      repeatPasswordInput.setCustomValidity("");
-    }
-  }
+  const errors = useActionData() as RegistrationFormErrors | undefined;
 
   return (
     <div className="center-container">
@@ -46,52 +87,37 @@ export default function RegistrationPage() {
         className="auth-form"
       >
         <h1>Register</h1>
-        {message && <strong>{message}</strong>}
-        <label>
-          <span>Username</span>
-          <input
-            type="text"
-            name="username"
-            required
-            minLength={3}
-          />
-        </label>
-        <label>
-          <span>Password</span>
-          <input
-            type="password"
-            name="password"
-            onChange={validatePassword}
-            required
-            minLength={6}
-          />
-        </label>
-        <label>
-          <span>Repeat password</span>
-          <input
-            type="password"
-            name="repeatPassword"
-            onChange={validatePassword}
-            required
-            minLength={6}
-          />
-        </label>
-        <label>
-          <span>First name</span>
-          <input
-            type="text"
-            name="firstName"
-            required
-          />
-        </label>
-        <label>
-          <span>Last name</span>
-          <input
-            type="text"
-            name="lastName"
-            required
-          />
-        </label>
+        {errors?.other && <span className="error-text">{errors.other}</span>}
+        <FormInput
+          type="text"
+          name="username"
+          label="Username"
+          error={errors?.username}
+        />
+        <FormInput
+          type="password"
+          name="password"
+          label="Password"
+          error={errors?.password}
+        />
+        <FormInput
+          type="password"
+          name="repeatPassword"
+          label="Repeat password"
+          error={errors?.repeatPassword}
+        />
+        <FormInput
+          type="text"
+          name="firstName"
+          label="First name"
+          error={errors?.firstName}
+        />
+        <FormInput
+          type="text"
+          name="lastName"
+          label="Last name"
+          error={errors?.lastName}
+        />
         <button type="submit">Submit</button>
       </Form>
 
