@@ -21,7 +21,7 @@ export default function FormInput({
         name={name}
         className={error && styles.errorInput}
       />
-      {error && <span className={styles.errorText}>{error}</span>}
+      {error && <span className="error-text">{error}</span>}
     </label>
   );
 }

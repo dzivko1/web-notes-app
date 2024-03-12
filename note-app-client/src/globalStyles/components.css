@@ -30,14 +30,14 @@
 
     input {
       padding: 8px;
-
-      &:invalid {
-        border: 2px solid #aa2200;
-      }
     }
   }
 
   button {
     margin-top: 20px;
   }
+}
+
+.error-text {
+  color: #ff3333;
 }
