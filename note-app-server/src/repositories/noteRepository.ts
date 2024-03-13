@@ -1,45 +1,45 @@
 import { Note } from "../models/note";
 import { timestampSeconds } from "../utils/dateUtils";
+import { collections } from "../db";
+import { ObjectId } from "mongodb";
 
 class NoteRepository {
-  private notes: Note[] = [];
-
-  getNotesForUser(userId: string): Note[] {
-    return this.notes.filter((note) => note.userId === userId);
+  getNotesForUser(userId: string): Promise<Note[]> {
+    return collections.notes.find({ userId: userId }).toArray();
   }
 
-  createNote(userId: string, title: string, content: string): Note {
+  async createNote(
+    userId: string,
+    title: string,
+    content: string,
+  ): Promise<Note> {
     const newNote: Note = {
-      id: crypto.randomUUID(),
+      _id: new ObjectId(),
       userId: userId,
       title: title,
       content: content,
       createdAt: timestampSeconds(),
       updatedAt: null,
     };
-    this.notes.push(newNote);
+    await collections.notes.insertOne(newNote);
     return newNote;
   }
 
-  updateNote(id: string, newNote: Partial<Note>): Note {
-    const existingNote = this.notes.find((note) => note.id === id);
-    if (!existingNote) throw new Error("Note not found");
-
-    const updatedNote = {
-      ...existingNote,
-      ...newNote,
-      updatedAt: timestampSeconds(),
-    };
-
-    this.notes = this.notes.map((note) =>
-      updatedNote.id === id ? updatedNote : note,
+  updateNote(id: string, newNote: Partial<Note>): Promise<Note | null> {
+    return collections.notes.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          ...newNote,
+          updatedAt: timestampSeconds(),
+        },
+      },
+      { returnDocument: "after" },
     );
-
-    return updatedNote;
   }
 
-  deleteNote(id: string): string {
-    this.notes = this.notes.filter((note) => note.id !== id);
+  async deleteNote(id: string): Promise<string> {
+    await collections.notes.deleteOne({ _id: new ObjectId(id) });
     return id;
   }
 }

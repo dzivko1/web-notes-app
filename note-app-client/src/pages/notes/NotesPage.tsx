@@ -29,7 +29,7 @@ export default function NotesPage() {
 
   async function deleteNote(id: string) {
     await noteService.deleteNote(id);
-    setNotes(notes.filter((note) => note.id !== id));
+    setNotes(notes.filter((note) => note._id !== id));
   }
 
   function clearNote() {

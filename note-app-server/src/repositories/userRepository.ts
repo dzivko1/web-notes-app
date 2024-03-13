@@ -1,15 +1,15 @@
 import { User } from "../models/user";
 import { generateUserToken, Token } from "../utils/jwtUtils";
 import { collections } from "../db";
-import { Collection } from "mongodb";
+import { ObjectId } from "mongodb";
 
 class UserRepository {
-  async getUser(id: string): Promise<User | null> {
-    return collections.users!.findOne({ id: id });
+  getUser(id: string): Promise<User | null> {
+    return collections.users.findOne({ _id: new ObjectId(id) });
   }
 
-  async getUserByUsername(username: string): Promise<User | null> {
-    return collections.users!.findOne({ username: username });
+  getUserByUsername(username: string): Promise<User | null> {
+    return collections.users.findOne({ username: username });
   }
 
   async registerUser(
@@ -18,26 +18,26 @@ class UserRepository {
     firstName: string,
     lastName: string,
   ): Promise<[User, Token]> {
-    if (await collections.users!.findOne({ username: username }))
+    if (await collections.users.findOne({ username: username }))
       throw new Error("Username already exists");
 
-    const userId: string = crypto.randomUUID();
+    const userId = new ObjectId();
     const user: User = {
-      id: userId,
+      _id: userId,
       username: username,
       password: password,
       firstName: firstName,
       lastName: lastName,
     };
 
-    await collections.users!.insertOne(user);
-    return [user, generateUserToken(userId)];
+    await collections.users.insertOne(user);
+    return [user, generateUserToken(userId.toString())];
   }
 
   async authUser(username: string, password: string): Promise<[User?, Token?]> {
-    const user = await collections.users!.findOne({ username: username });
+    const user = await collections.users.findOne({ username: username });
     if (user && user.password === password) {
-      return [user, generateUserToken(user.id)];
+      return [user, generateUserToken(user._id.toString())];
     } else {
       return [];
     }

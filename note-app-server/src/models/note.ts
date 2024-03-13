@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb";
+
 export interface Note {
-  id: string;
+  _id: ObjectId;
   userId: string;
   title: string;
   content: string;

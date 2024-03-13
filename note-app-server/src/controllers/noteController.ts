@@ -3,25 +3,27 @@ import noteRepository from "../repositories/noteRepository";
 import { UserRequest } from "../types";
 
 class NoteController {
-  getNotes(req: UserRequest, res: Response) {
+  async getNotes(req: UserRequest, res: Response) {
     const user = req.user!;
-    res.send(noteRepository.getNotesForUser(user.id));
+    res.send(await noteRepository.getNotesForUser(user._id.toString()));
   }
 
-  createNote(req: UserRequest, res: Response) {
+  async createNote(req: UserRequest, res: Response) {
     const user = req.user!;
     const { title, content } = req.body;
-    res.send(noteRepository.createNote(user.id, title, content));
+    res.send(
+      await noteRepository.createNote(user._id.toString(), title, content),
+    );
   }
 
-  updateNote(req: Request, res: Response) {
+  async updateNote(req: Request, res: Response) {
     const { id } = req.params;
-    res.send(noteRepository.updateNote(id, req.body));
+    res.send(await noteRepository.updateNote(id, req.body));
   }
 
-  deleteNote(req: Request, res: Response) {
+  async deleteNote(req: Request, res: Response) {
     const { id } = req.params;
-    res.send(noteRepository.deleteNote(id));
+    res.send(await noteRepository.deleteNote(id));
   }
 }
 

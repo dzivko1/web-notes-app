@@ -13,12 +13,12 @@ export default function NotesList({
     <div className="notes-list">
       {notes.map((note) => (
         <NoteView
-          key={note.id}
+          key={note._id}
           title={note.title}
           onTitleChange={() => {}}
           content={note.content}
           onContentChange={() => {}}
-          onDeleteClick={() => onDeleteClick(note.id)}
+          onDeleteClick={() => onDeleteClick(note._id)}
         />
       ))}
     </div>
