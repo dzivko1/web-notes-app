@@ -12,11 +12,11 @@ export default function requireAuth(
   const token = req.cookies.authToken;
   if (!token) return res.sendStatus(401);
 
-  jwt.verify(token, Config.JWT_PRIVATE_KEY, (error: any, data: any) => {
+  jwt.verify(token, Config.JWT_PRIVATE_KEY, async (error: any, data: any) => {
     if (error) {
       res.sendStatus(401);
     } else {
-      const user = userRepository.getUser(data.id);
+      const user = await userRepository.getUser(data.id);
       if (user) {
         req.user = user;
         next();

@@ -8,17 +8,17 @@ class AuthController {
     res.send(req.user);
   }
 
-  registerUser(req: Request, res: Response) {
+  async registerUser(req: Request, res: Response) {
     const { username, password, firstName, lastName } = req.body;
     if (!username || !password || !firstName || !lastName) {
       return res.status(400).send("Invalid input data");
     }
 
-    const existingUser = userRepository.getUserByUsername(username);
+    const existingUser = await userRepository.getUserByUsername(username);
     if (existingUser)
       return res.status(409).send("Username already registered");
 
-    const [user, token] = userRepository.registerUser(
+    const [user, token] = await userRepository.registerUser(
       username,
       password,
       firstName,
@@ -30,9 +30,9 @@ class AuthController {
       .send(user);
   }
 
-  authUser(req: Request, res: Response) {
+  async authUser(req: Request, res: Response) {
     const { username, password } = req.body;
-    const [user, token] = userRepository.authUser(username, password);
+    const [user, token] = await userRepository.authUser(username, password);
     if (user && token) {
       res
         .cookie("authToken", token, { httpOnly: true, sameSite: "strict" })
