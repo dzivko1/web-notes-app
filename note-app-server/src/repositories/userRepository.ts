@@ -2,6 +2,7 @@ import { User } from "../models/user";
 import { generateUserToken, Token } from "../utils/jwtUtils";
 import { collections } from "../db";
 import { ObjectId } from "mongodb";
+import { hashPassword, verifyPassword } from "../utils/passwordUtils";
 
 class UserRepository {
   getUser(id: string): Promise<User | null> {
@@ -25,19 +26,29 @@ class UserRepository {
     const user: User = {
       _id: userId,
       username: username,
-      password: password,
       firstName: firstName,
       lastName: lastName,
     };
 
     await collections.users.insertOne(user);
+    await collections.passwords.insertOne({
+      userId: userId.toString(),
+      passwordHash: await hashPassword(password),
+    });
     return [user, generateUserToken(userId.toString())];
   }
 
   async authUser(username: string, password: string): Promise<[User?, Token?]> {
     const user = await collections.users.findOne({ username: username });
-    if (user && user.password === password) {
-      return [user, generateUserToken(user._id.toString())];
+    if (user) {
+      const hash = await collections.passwords.findOne({
+        userId: user._id.toString(),
+      });
+      if (hash && (await verifyPassword(password, hash.passwordHash))) {
+        return [user, generateUserToken(user._id.toString())];
+      } else {
+        return [];
+      }
     } else {
       return [];
     }

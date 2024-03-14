@@ -1,5 +1,5 @@
 import { Collection, Db, MongoClient } from "mongodb";
-import { User } from "./models/user";
+import { User, UserPassword } from "./models/user";
 import { Note } from "./models/note";
 
 const dbUrl = "mongodb://localhost:27017";
@@ -15,11 +15,13 @@ export async function connectToDatabase() {
 class Collections {
   private collections: Partial<{
     users: Collection<User>;
+    passwords: Collection<UserPassword>;
     notes: Collection<Note>;
   }> = {};
 
   initCollections(db: Db) {
     this.collections.users = db.collection("users");
+    this.collections.passwords = db.collection("passwords");
     this.collections.notes = db.collection("notes");
   }
 
@@ -29,8 +31,16 @@ class Collections {
         "Tried to access non-initialized collection 'users'. Please check your code flow.",
       );
     }
-
     return this.collections.users;
+  }
+
+  get passwords() {
+    if (!this.collections.passwords) {
+      throw Error(
+        "Tried to access non-initialized collection 'passwords'. Please check your code flow.",
+      );
+    }
+    return this.collections.passwords;
   }
 
   get notes() {
