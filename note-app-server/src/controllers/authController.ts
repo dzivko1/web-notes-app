@@ -10,7 +10,12 @@ class AuthController {
 
   async registerUser(req: Request, res: Response) {
     const { username, password, firstName, lastName } = req.body;
-    if (!username || !password || !firstName || !lastName) {
+    if (
+      username?.length < 3 ||
+      password?.length < 6 ||
+      !firstName ||
+      !lastName
+    ) {
       return res.status(400).send("Invalid input data");
     }
 
@@ -32,6 +37,10 @@ class AuthController {
 
   async authUser(req: Request, res: Response) {
     const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).send("Invalid input data");
+    }
+
     const [user, token] = await userRepository.authUser(username, password);
     if (user && token) {
       res
