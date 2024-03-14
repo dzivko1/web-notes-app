@@ -14,14 +14,10 @@ interface LoginFormErrors {
   other: string;
 }
 
-function validateForm(formData: FormData): LoginFormErrors {
+function validateForm(formData: FormData): Partial<LoginFormErrors> {
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
-  const errors: LoginFormErrors = {
-    username: "",
-    password: "",
-    other: "",
-  };
+  const errors: Partial<LoginFormErrors> = {};
 
   if (username.length === 0) {
     errors.username = "Username is required";

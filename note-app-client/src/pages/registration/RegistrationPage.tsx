@@ -17,20 +17,13 @@ interface RegistrationFormErrors {
   other: string;
 }
 
-function validateForm(formData: FormData): RegistrationFormErrors {
+function validateForm(formData: FormData): Partial<RegistrationFormErrors> {
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
   const repeatPassword = formData.get("repeatPassword") as string;
   const firstName = formData.get("firstName") as string;
   const lastName = formData.get("lastName") as string;
-  const errors: RegistrationFormErrors = {
-    username: "",
-    password: "",
-    repeatPassword: "",
-    firstName: "",
-    lastName: "",
-    other: "",
-  };
+  const errors: Partial<RegistrationFormErrors> = {};
 
   if (username.length < 3) {
     errors.username = "Username must have at least 3 characters";
