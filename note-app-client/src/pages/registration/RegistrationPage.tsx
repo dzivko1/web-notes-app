@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import authService from "../../services/authService.ts";
 import FormInput from "../../components/formInput/FormInput.tsx";
+import AuthForm from "../../components/authForm/AuthForm.tsx";
 
 interface RegistrationFormErrors {
   username: string;
@@ -74,13 +75,10 @@ export default function RegistrationPage() {
 
   return (
     <div className="center-container">
-      <Form
-        replace
-        method="post"
-        className="auth-form"
+      <AuthForm
+        title="Register"
+        error={errors?.other}
       >
-        <h1>Register</h1>
-        {errors?.other && <span className="error-text">{errors.other}</span>}
         <FormInput
           type="text"
           name="username"
@@ -112,7 +110,7 @@ export default function RegistrationPage() {
           error={errors?.lastName}
         />
         <button type="submit">Submit</button>
-      </Form>
+      </AuthForm>
 
       <Link to="/login">Log in</Link>
     </div>
