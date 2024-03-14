@@ -4,3 +4,27 @@ button {
   border: none;
   border-radius: 20px;
 }
+
+.risk-button {
+  background-color: #bb1111;
+
+  &:hover {
+    background-color: #cc2222;
+  }
+
+  &:active {
+    background-color: #dd3333;
+  }
+}
+
+.mild-button {
+  background-color: #444444;
+
+  &:hover {
+    background-color: #555555;
+  }
+
+  &:active {
+    background-color: #666666;
+  }
+}

@@ -35,7 +35,7 @@ export default function Root() {
           </div>
         )}
       </header>
-      <Outlet />;
+      <Outlet />
     </>
   );
 }
