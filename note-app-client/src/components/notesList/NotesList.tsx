@@ -1,14 +1,18 @@
-import { Note } from "../../models/Note";
+import { Note } from "../../models/note";
 import "./NotesList.css";
 import NoteView from "../noteView/NoteView";
 
+interface NotesListProps {
+  notes: Note[];
+  onNoteClick: (id: Note | null) => void;
+  onDeleteClick: (id: string) => void;
+}
+
 export default function NotesList({
   notes,
+  onNoteClick,
   onDeleteClick,
-}: {
-  notes: Note[];
-  onDeleteClick: (id: string) => void;
-}) {
+}: NotesListProps) {
   return (
     <div className="notes-list">
       {notes.map((note) => (
@@ -18,6 +22,7 @@ export default function NotesList({
           onTitleChange={() => {}}
           content={note.content}
           onContentChange={() => {}}
+          onClick={() => onNoteClick(note)}
           onDeleteClick={() => onDeleteClick(note._id)}
         />
       ))}

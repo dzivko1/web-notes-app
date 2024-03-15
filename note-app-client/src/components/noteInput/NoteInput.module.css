@@ -1,4 +1,4 @@
-.note-input {
+.noteInput {
   display: flex;
   place-items: center;
   border-right: 4px solid gray;
@@ -9,18 +9,5 @@
     flex-direction: column;
     place-items: center;
     width: 100%;
-  }
-
-  .note {
-    margin: 20px;
-    font-size: 2cqw;
-    aspect-ratio: 1;
-    width: 80%;
-    max-height: fit-content;
-  }
-
-  .save {
-    width: fit-content;
-    padding: 10px 30px;
   }
 }

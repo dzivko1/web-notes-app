@@ -5,6 +5,9 @@
   min-width: 12em;
   max-height: 12em;
   aspect-ratio: 1;
+  transition:
+    min-width 300ms ease,
+    max-height 300ms ease;
 
   input,
   textarea {
@@ -16,11 +19,11 @@
     resize: none;
     overflow: auto;
     margin: 0;
-    font-size: 2cqw;
+    font-size: 1.5cqw;
     width: 100%;
   }
 
-  .note-handle {
+  .noteHandle {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,15 +58,16 @@
     }
   }
 
-  .note-block {
+  .noteBlock {
     background: #fde682;
     flex-grow: 1;
     display: flex;
   }
 
-  .note-content {
+  .noteContent {
     background-color: #e6cb31;
     padding: 12px;
+    font-size: 1.5cqw;
     flex-grow: 1;
     word-break: break-word;
     overflow-y: auto;
@@ -71,4 +75,12 @@
     scrollbar-width: thin;
     clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 80% 100%, 0% 100%);
   }
+}
+
+.editableNote {
+  margin: 20px;
+  font-size: 2cqw;
+  aspect-ratio: 1;
+  width: 80%;
+  max-height: fit-content;
 }

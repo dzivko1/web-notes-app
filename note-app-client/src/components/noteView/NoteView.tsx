@@ -1,4 +1,4 @@
-import "./NoteView.css";
+import styles from "./NoteView.module.css";
 
 interface NoteViewProps {
   isEditable?: boolean;
@@ -6,6 +6,7 @@ interface NoteViewProps {
   onTitleChange: (title: string) => void;
   content: string;
   onContentChange: (content: string) => void;
+  onClick: () => void;
   onDeleteClick: () => void;
 }
 
@@ -15,37 +16,50 @@ export default function NoteView({
   onTitleChange,
   content,
   onContentChange,
+  onClick,
   onDeleteClick,
 }: NoteViewProps) {
   return (
-    <div className="note">
-      <div className="note-handle">
+    <div
+      className={`${styles.note} ${isEditable ? styles.editableNote : ""}`}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+    >
+      <div className={styles.noteHandle}>
         {isEditable ? (
           <input
-            className="title"
+            className={styles.title}
             value={title}
             onChange={(e) => onTitleChange(e.target.value)}
           />
         ) : (
-          <div className="title">{title}</div>
+          <div className={styles.title}>{title}</div>
         )}
 
-        <button className="delete" onClick={onDeleteClick}>
+        <button
+          className={styles.delete}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeleteClick();
+          }}
+        >
           x
         </button>
       </div>
 
-      {isEditable ? (
-        <div className="note-block">
+      <div className={isEditable ? styles.noteBlock : styles.noteContent}>
+        {isEditable ? (
           <textarea
-            className="note-content"
+            className={styles.noteContent}
             value={content}
             onChange={(e) => onContentChange(e.target.value)}
           />
-        </div>
-      ) : (
-        <div className="note-content">{content}</div>
-      )}
+        ) : (
+          <>{content}</>
+        )}
+      </div>
     </div>
   );
 }

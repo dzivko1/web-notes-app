@@ -1,9 +1,9 @@
 import React from "react";
-import "./NoteInput.css";
+import styles from "./NoteInput.module.css";
 
 export default function NoteInput({ children }: React.PropsWithChildren) {
   return (
-    <div className="note-input">
+    <div className={styles.noteInput}>
       <div>{children}</div>
     </div>
   );

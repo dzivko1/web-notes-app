@@ -9,8 +9,16 @@ class NoteService {
     return response.data;
   }
 
-  async saveNote(title: string, content: string): Promise<Note> {
+  async addNote(title: string, content: string): Promise<Note> {
     const response = await axios.post("/api/notes", {
+      title: title,
+      content: content,
+    });
+    return response.data;
+  }
+
+  async updateNote(id: string, title: string, content: string): Promise<Note> {
+    const response = await axios.patch(`/api/notes/${id}`, {
       title: title,
       content: content,
     });

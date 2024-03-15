@@ -3,6 +3,7 @@ button {
   padding: 10px 30px;
   border: none;
   border-radius: 20px;
+  background-color: #555;
 }
 
 .risk-button {
